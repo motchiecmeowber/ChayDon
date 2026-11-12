@@ -1,0 +1,49 @@
+# Thư mục Unity tự sinh lại khi mở dự án
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# File dự án IDE do Unity sinh lại
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.slnx
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# File build
+*.apk
+*.aab
+*.unitypackage
+*.app
+crashlytics-build.properties
+sysinfo.txt
+
+# Gói Unity Asset Store (Standard Unity Asset Store EULA không cho phát tán file gốc).
+# Mỗi thành viên tự import theo hướng dẫn trong README.md.
+/Assets/BrokenVector/
+/Assets/BrokenVector.meta
+/Assets/AsianStreetFoodPack/
+/Assets/AsianStreetFoodPack.meta
+
+# Hệ điều hành
+.DS_Store
+Thumbs.db
+desktop.ini
