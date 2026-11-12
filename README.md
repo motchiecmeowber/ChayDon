@@ -43,7 +43,7 @@ Cần Blender 5.2. Chạy trong thư mục `Tools/Blender`:
 blender --background --factory-startup --python tao_asset_lowpoly.py -- ../../Assets/_Project/Art
 ```
 
-Thêm tên nhóm ở cuối để chỉ dựng một phần: `cu`, `cong_trinh`, `cong_vien`, `hem`, `duong`. Model sinh ra ghi đè file cũ nhưng giữ nguyên file `.meta`, nên liên kết trong scene không bị mất.
+Thêm tên nhóm ở cuối để chỉ dựng một phần: `cu`, `cong_trinh`, `cong_trinh2`, `cong_vien`, `hem`, `hem2`, `duong`, `nga_re`, `vat_can`, `xe_ai`, `xe_dong`, `dia_diem`, `nha_o`. Mỗi lần chạy đều sinh lại hai ảnh bảng màu `BangMau_LowPoly.png` và `BangMau_Quan3.png`. Model sinh ra ghi đè file cũ nhưng giữ nguyên file `.meta`, nên liên kết trong scene không bị mất.
 
 Quy ước: 1 đơn vị = 1 m; gốc model ở giữa đáy; mặt trước model quay về **+Z** trong Unity; đường kéo dài theo +Z.
 
