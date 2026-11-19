@@ -523,7 +523,7 @@ def bien_doc(chu, x, y, ztren, nen, col):
         z = ztren - 0.35 - i * 0.42
         for mat in (-1, 1):
             o = chu_3d(c, (0, 0, 0), 0.5, 0.32, col)
-            o.data.transform(Matrix.Rotation(math.radians(-90 * mat), 4, "Z"))  # mặt chữ quay về ±X
+            o.data.transform(Matrix.Rotation(math.radians(90 * mat), 4, "Z"))  # mặt chữ quay về ±X, cùng phía với chỗ đặt
             o.data.transform(Matrix.Translation((x + mat * 0.08, y, z)))
             p.append(o)
     return p
@@ -708,18 +708,30 @@ def nha(idx, floors, wall, awn, shutter, roof, W=4.0, tiem="quan_an", ten=None, 
 
 # ---------- Xe máy tay ga và người lái (đầu xe hướng -Y) ----------
 # ---------- Đồ dựng phố ----------
+def tan_ra_duong(blobs, xmin=-0.25, z_an_toan=17.0, det=0.85):
+    """Cây vỉa hè (gốc cách mặt tiền 1,4 m): tán không lấn quá xmin về phía nhà (-X) để chừa ban công sâu 1 m,
+    phần thừa dồn ra phía đường (+X).
+    Chỉ áp cho chùm lá thấp hơn z_an_toan (mái nhà cao nhất); trong Unity đặt cây bên trái đường thì xoay 180 độ."""
+    out = []
+    for x, y, z, r in blobs:
+        if z - r * det < z_an_toan and x - r < xmin:
+            x = xmin + r
+        out.append((x, y, z, r))
+    return out
+
+
 def cay(idx):
     reset()
     random.seed(60 + idx)
     h = 2.6 if idx == 1 else 4.6
     p = [cyl(0.16, h, (0, 0, h / 2), "than_cay", v=6, r2=0.1, jit=0.02)]
-    for s in (-1, 1):
-        p.append(limb((0, 0, h * 0.75), (s * 0.6, 0.1 * s, h + 0.3), 0.09, "than_cay", bev=0))
+    for s in (-1, 1):  # hai nhánh xòe dọc theo đường, chếch ra phía đường
+        p.append(limb((0, 0, h * 0.75), (0.5, 0.5 * s, h + 0.3), 0.09, "than_cay", bev=0))
     blobs = [(0, 0, h + 0.7, 1.1), (0.7, 0.2, h + 0.3, 0.8), (-0.7, -0.1, h + 0.35, 0.85), (0.1, -0.5, h + 0.2, 0.7),
              (0.2, 0.3, h + 1.4, 0.75)]
     if idx == 2:
         blobs += [(0, 0, h + 2.0, 0.6), (-0.4, 0.3, h - 0.4, 0.6)]
-    for i, (x, y, z, r) in enumerate(blobs):
+    for i, (x, y, z, r) in enumerate(tan_ra_duong(blobs)):
         p.append(ball(r, (x, y, z), ["la1", "la2", "la3"][i % 3], sub=1, jit=r * 0.12, scale=(1, 1, 0.85)))
     for x, y, sx, sy in ((0, -0.6, 1.3, 0.1), (0, 0.6, 1.3, 0.1), (-0.6, 0, 0.1, 1.1), (0.6, 0, 0.1, 1.1)):
         p.append(box((sx, sy, 0.12), (x, y, 0.06), "xam", bev=0.02))  # bó gốc cây
@@ -923,8 +935,8 @@ def cay_cao(kind):
     if kind == "dau":
         p += [cyl(0.5, 18, (0, 0, 9), "vo_dau", v=7, r2=0.28, jit=0.03),
               cyl(0.85, 0.8, (0, 0, 0.4), "vo_dau", v=7, r2=0.5)]
-        for a, b in (((0, 0, 15), (3, 0.6, 20)), ((0, 0, 15.5), (-3, -0.5, 20.5)), ((0, 0, 16), (0.4, 3, 21)),
-                     ((0, 0, 16.5), (-0.4, -3, 20.5))):
+        for a, b in (((0, 0, 15), (3, 0.6, 20)), ((0, 0, 17.5), (-3, -0.5, 20.5)), ((0, 0, 16), (0.4, 3, 21)),
+                     ((0, 0, 16.5), (-0.4, -3, 20.5))):  # nhánh về phía nhà mọc từ trên mái nhà cao nhất
             p.append(limb(a, b, 0.28, "vo_dau", bev=0))
         blobs = [(0, 0, 23, 3.4), (3, 0.5, 20.5, 2.6), (-3, -0.5, 21, 2.8), (0.5, 3, 21.5, 2.5),
                  (-0.5, -3, 20.5, 2.5), (1.5, -1.5, 24.5, 2.2), (-1.8, 1.6, 24, 2.2)]
@@ -933,7 +945,7 @@ def cay_cao(kind):
         p += [cyl(0.45, 15, (0, 0, 7.5), "than_cay", v=7, r2=0.25, jit=0.03),
               cyl(0.75, 0.7, (0, 0, 0.35), "than_cay", v=7, r2=0.45)]
         for z, s in ((10, 1), (12.5, -1), (15, 1)):
-            p.append(limb((0, 0, z), (s * 1.8, 0.5 * s, z + 1.5), 0.18, "than_cay", bev=0))
+            p.append(limb((0, 0, z), (1.8, 0.5 * s, z + 1.5), 0.18, "than_cay", bev=0))
         blobs = [(1.8, 0.5, 12, 1.6), (-1.8, -0.5, 14.5, 1.7), (1.6, 0.4, 17, 1.6), (0, 0, 16, 2.2),
                  (0, 0, 19, 2.4), (0.3, -0.2, 21.5, 1.8), (-0.6, 0.8, 18, 1.8)]
         name = "CaySao_Cao"
@@ -947,7 +959,7 @@ def cay_cao(kind):
         for z, r, c in ((4.0, 3.3, "la2"), (5.2, 2.5, "la1"), (6.2, 1.6, "la3")):
             p.append(ball(r, (0, 0, z), c, sub=2, scale=(1, 1, 0.28), jit=r * 0.06))
         name = "CayBang"
-    for i, (x, y, z, r) in enumerate(blobs):
+    for i, (x, y, z, r) in enumerate(tan_ra_duong(blobs, det=0.78)):
         p.append(ball(r, (x, y, z), ["la1", "la2", "la3"][i % 3], sub=1, jit=r * 0.14, scale=(1, 1, 0.78)))
     if kind != "bang":
         for x, y, sx, sy in ((0, -0.8, 1.7, 0.12), (0, 0.8, 1.7, 0.12), (-0.8, 0, 0.12, 1.5), (0.8, 0, 0.12, 1.5)):
@@ -1365,32 +1377,86 @@ def dia(rx, ry, z, col, v=12, meo=0.0, loc=(0, 0), day=0.008):
     return o
 
 
+def vien_rach(rx, ry, n, meo=0.18, loc=(0, 0)):
+    """Đường viền gãy khúc của mảng nhựa vỡ: n đỉnh quanh elip, bán kính lồi lõm xen kẽ."""
+    pts = []
+    for k in range(n):
+        a = k / n * math.tau + random.uniform(-0.25, 0.25) / n * math.tau
+        f = random.uniform(1 - meo, 1 + meo) * (1.06 if k % 2 else 0.94)
+        pts.append((loc[0] + rx * f * math.cos(a), loc[1] + ry * f * math.sin(a)))
+    return pts
+
+
+def thu_nho(pts, k, loc=None):
+    """Co đa giác về tâm (hoặc về loc) theo hệ số k."""
+    cx = loc[0] if loc else sum(x for x, _ in pts) / len(pts)
+    cy = loc[1] if loc else sum(y for _, y in pts) / len(pts)
+    return [(cx + (x - cx) * k, cy + (y - cy) * k) for x, y in pts]
+
+
+def dai_vien(ngoai, k_trong, z0, z1, col, chon):
+    """Dải viền giữa đa giác ngoài và bản co k_trong, chỉ lấy những cạnh mà chon(tâm cạnh) đúng."""
+    trong = thu_nho(ngoai, k_trong)
+    p = []
+    n = len(ngoai)
+    for i in range(n):
+        a, b = ngoai[i], ngoai[(i + 1) % n]
+        if chon(((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)):
+            p.append(khoi_phang([a, b, trong[(i + 1) % n], trong[i]], z0, z1, col))
+    return p
+
+
+def ho_ga(x, y, rx, ry, nuoc=False):
+    """Một hố: lòng hố đá dăm, thành hố phía xa lộ hai lớp (lớp nhựa tối, lớp nền sáng) vì camera nhìn từ phía sau,
+    bóng mép gần đổ vào lòng, mép nhựa vỡ sáng, mảnh nhựa bong, đá dăm, nứt da cá sấu quanh mép.
+    Camera đi về -Y nên thành phía xa (-Y) là mặt thấy được."""
+    p = []
+    ngoai = vien_rach(rx, ry, 15, loc=(x, y))
+    p.append(khoi_phang(ngoai, 0.003, 0.006, "uot"))                                  # lòng hố tối, ẩm
+    xa = lambda c: c[1] < y + ry * 0.15
+    gan = lambda c: c[1] >= y + ry * 0.15
+    p += dai_vien(ngoai, 0.9, 0.006, 0.008, "vien", xa)                              # lớp nhựa trên cùng bị cắt
+    p += dai_vien(thu_nho(ngoai, 0.9), 0.8, 0.006, 0.008, "vo_dau", xa)               # lớp nền bên dưới
+    p += dai_vien(ngoai, 0.82, 0.006, 0.008, "vien", gan)                            # bóng mép gần
+    if nuoc:  # nước đọng dưới đáy, dồn về phía gần
+        p.append(khoi_phang(thu_nho(vien_rach(rx * 0.55, ry * 0.45, 10, 0.1, (x, y + ry * 0.12)), 1), 0.008, 0.01, "kinh"))
+        p.append(khoi_phang(vien_rach(rx * 0.3, ry * 0.15, 7, 0.1, (x - rx * 0.1, y + ry * 0.02)), 0.01, 0.011, "kinh_sang"))
+    for k in range(int(14 * rx)):  # đá dăm trong lòng hố
+        a, r = random.uniform(0, math.tau), random.uniform(0, 0.65)
+        p.append(ball(random.uniform(0.025, 0.05), (x + rx * r * math.cos(a), y + ry * r * math.sin(a), 0.01),
+                      random.choice(["vo_dau", "be_tong", "vien", "xam_nhat"]), scale=(1, 1, 0.45), jit=0.006))
+    for k in range(int(7 * rx)):  # mảnh nhựa bong quanh mép
+        a = random.uniform(0, math.tau)
+        r = random.uniform(1.05, 1.3)
+        cx, cy = x + rx * r * math.cos(a), y + ry * r * math.sin(a)
+        p.append(khoi_phang(vien_rach(random.uniform(0.05, 0.11), random.uniform(0.04, 0.08), 5, 0.3, (cx, cy)),
+                            0.004, random.uniform(0.015, 0.03), random.choice(["duong", "xam", "vien"])))
+    for k in range(3):  # vết nứt gãy khúc ngắn chạy ra từ mép, nhỏ dần
+        a = random.uniform(0, math.tau)
+        px, py = x + rx * 1.02 * math.cos(a), y + ry * 1.02 * math.sin(a)
+        w = 0.03
+        for j in range(3):
+            a += random.uniform(-0.6, 0.6)
+            dx, dy = math.cos(a) * random.uniform(0.12, 0.2), math.sin(a) * random.uniform(0.12, 0.2)
+            p.append(limb((px, py, 0.004), (px + dx, py + dy, 0.004), w, "vien", bev=0))
+            px, py, w = px + dx, py + dy, w * 0.7
+    return p
+
+
 def o_ga(kieu):
-    """Ổ gà: lòng tối, mép nhựa vỡ nhô lên, vết nứt tỏa ra để nhìn rõ từ xa. kieu: 1 tròn, 2 vệt dài, cum (3 hố nhỏ)."""
+    """Ổ gà kiểu đường Sài Gòn: viền gãy khúc, thấy được thành hố hai lớp và đáy đá dăm, mảnh nhựa bong, nứt da cá sấu.
+    kieu: 1 (hố đơn ~1,2 m), 2 (vệt dài dọc làn có nước đọng), cum (ba hố nhỏ trên miếng vá cũ)."""
     reset()
     random.seed({"1": 200, "2": 210, "cum": 220}[kieu])
     p = []
-    ho = {"1": [(0, 0, 0.65, 0.5)], "2": [(-0.45, 0.05, 0.5, 0.36), (0.45, -0.05, 0.6, 0.38)],
-          "cum": [(-0.5, 0.2, 0.36, 0.28), (0.35, -0.2, 0.42, 0.32), (0.05, 0.5, 0.28, 0.22)]}[kieu]
-    for x, y, rx, ry in ho:
-        p.append(dia(rx + 0.14, ry + 0.12, 0.003, "xam", v=12, meo=0.18, loc=(x, y), day=0.006))  # mép nhựa vỡ sáng
-        p.append(dia(rx, ry, 0.006, "vien", v=11, meo=0.15, loc=(x, y), day=0.01))                # lòng hố tối
-        p.append(dia(rx * 0.55, ry * 0.55, 0.012, "dat", v=9, meo=0.2, loc=(x + 0.04, y - 0.03)))  # đất đáy hố
-        n = 9
-        for k in range(n):  # mảnh nhựa vỡ quanh mép
-            a = k / n * math.tau + random.uniform(-0.2, 0.2)
-            p.append(box((random.uniform(0.14, 0.24), random.uniform(0.09, 0.15), 0.04),
-                         (x + (rx + 0.08) * math.cos(a), y + (ry + 0.08) * math.sin(a), 0.02), "xam",
-                         rot=(random.uniform(-8, 8), random.uniform(-8, 8), math.degrees(a)), jit=0.008))
-        for k in range(4):  # vết nứt
-            a = random.uniform(0, math.tau)
-            r0, r1 = max(rx, ry) + 0.05, max(rx, ry) + random.uniform(0.25, 0.45)
-            p.append(limb((x + r0 * math.cos(a), y + r0 * math.sin(a), 0.006),
-                          (x + r1 * math.cos(a + 0.2), y + r1 * math.sin(a + 0.2), 0.006), 0.022, "vien", bev=0))
-        for k in range(3):  # sỏi văng ra
-            a = random.uniform(0, math.tau)
-            p.append(ball(0.03, (x + (rx + 0.2) * math.cos(a), y + (ry + 0.2) * math.sin(a), 0.012), "xam",
-                          scale=(1, 1, 0.5)))
+    if kieu == "1":
+        p += ho_ga(0, 0, 0.62, 0.48)
+    elif kieu == "2":
+        p += ho_ga(0, 0, 0.42, 0.85, nuoc=True)
+    else:
+        p.append(box((2.0, 1.7, 0.003), (0, 0, 0.0015), "uot", rot=(0, 0, 6)))  # miếng vá nhựa cũ sẫm màu
+        for x, y, rx, ry in ((-0.5, 0.25, 0.32, 0.25), (0.42, -0.2, 0.38, 0.3), (0.0, 0.55, 0.22, 0.18)):
+            p += ho_ga(x, y, rx, ry)
     done({"1": "OGa_1", "2": "OGa_2", "cum": "OGa_Cum"}[kieu], "Models/VatCan", p)
 
 
@@ -1455,21 +1521,39 @@ def non_giao_thong():
     done("NonGiaoThong", "Models/VatCan", p)
 
 
+def vien_mem(rx, ry, n=28, loc=(0, 0)):
+    """Đường viền mềm của vũng nước: elip méo theo vài sóng sin tần số thấp."""
+    f1, f2, f3 = (random.uniform(0, math.tau) for _ in range(3))
+    pts = []
+    for k in range(n):
+        a = k / n * math.tau
+        r = 1 + 0.13 * math.sin(2 * a + f1) + 0.08 * math.sin(3 * a + f2) + 0.04 * math.sin(5 * a + f3)
+        pts.append((loc[0] + rx * r * math.cos(a), loc[1] + ry * r * math.sin(a)))
+    return pts
+
+
 def vung_nuoc(lon):
-    """Vũng nước: mặt nước xanh có vệt sáng phản chiếu, viền mặt đường ướt sẫm. Nhỏ 1,4 m, lớn 2,6 m (gần trọn làn)."""
+    """Vũng nước mưa: mặt đường ướt sẫm loang rộng quanh vũng, mặt nước tối phản chiếu nhà cửa, phần xa phản chiếu
+    bầu trời sáng (camera nhìn từ phía sau, đi về -Y), gợn sóng tròn, lá rụng nổi. Nhỏ ~1,4 m, lớn ~2,6 m."""
     reset()
     random.seed(240 + lon)
-    rx, ry = (1.3, 0.85) if lon else (0.7, 0.5)
+    rx, ry = (1.3, 0.9) if lon else (0.7, 0.5)
     p = []
-    for r, z, col in ((1.18, 0.003, "uot"), (1.0, 0.006, "nuoc")):
-        p.append(dia(rx * r, ry * r, z, col, v=16, meo=0.13, day=0.006))
-    for k in range(3):  # vệt sáng phản chiếu trời
-        p.append(box((rx * random.uniform(0.25, 0.5), 0.05, 0.004),
-                     (random.uniform(-rx, rx) * 0.4, random.uniform(-ry, ry) * 0.4, 0.011), "kinh_sang",
-                     rot=(0, 0, random.uniform(-25, 25))))
-    for k in range(4):  # giọt bắn quanh vũng
+    vien = vien_mem(rx, ry)
+    p.append(khoi_phang(thu_nho(vien, 1.14, (0, 0)), 0.001, 0.003, "uot"))            # mép đường ướt sẫm
+    for k in range(4):  # vài đốm ướt văng sát mép
         a = random.uniform(0, math.tau)
-        p.append(cyl(random.uniform(0.05, 0.1), 0.004, (rx * 1.3 * math.cos(a), ry * 1.35 * math.sin(a), 0.004), "uot", v=8))
+        c = (rx * 1.22 * math.cos(a), ry * 1.25 * math.sin(a))
+        p.append(khoi_phang(vien_mem(random.uniform(0.05, 0.1), random.uniform(0.04, 0.08), 10, c), 0.001, 0.003, "uot"))
+    p.append(khoi_phang(vien, 0.003, 0.006, "kinh"))                                   # mặt nước tối
+    p.append(khoi_phang(vien_mem(rx * 0.6, ry * 0.3, 22, (rx * 0.05, -ry * 0.45)), 0.006, 0.008, "kinh_sang"))  # trời phản chiếu phía xa
+    p.append(khoi_phang(vien_mem(rx * 0.25, ry * 0.07, 12, (-rx * 0.1, -ry * 0.5)), 0.008, 0.009, "bau_troi"))   # vệt sáng
+    cx, cy = rx * random.uniform(-0.3, 0.3), ry * random.uniform(0.0, 0.35)
+    for r in (0.08, 0.15):  # gợn sóng tròn do giọt mưa
+        ngoai = vien_mem(r * (1 + lon), r * 0.7 * (1 + lon), 16, (cx, cy))
+        p += dai_vien(ngoai, 0.88, 0.008, 0.009, "kinh_sang", lambda c: True)
+    lx, ly = rx * random.uniform(-0.5, 0.5), ry * random.uniform(-0.2, 0.3)
+    p.append(khoi_phang([(lx - 0.07, ly), (lx, ly - 0.03), (lx + 0.07, ly), (lx, ly + 0.03)], 0.006, 0.012, "la_dam"))  # lá rụng
     done("VungNuoc_Lon" if lon else "VungNuoc_Nho", "Models/VatCan", p)
 
 
@@ -1990,14 +2074,16 @@ def cay_me():
     reset()
     random.seed(140)
     p = [cyl(0.42, 3.8, (0, 0, 1.9), "than_cay", v=7, r2=0.3, jit=0.05),
-         cyl(0.7, 0.6, (0, 0, 0.3), "than_cay", v=7, r2=0.42)]
-    for a in (0, 2.1, 4.2):
+         cyl(0.5, 0.6, (0, 0, 0.3), "than_cay", v=7, r2=0.42)]
+    for a in (-1.0, 0.0, 1.0):  # ba nhánh chính xòe về phía đường (+X)
         p.append(limb((0, 0, 3.4), (2.4 * math.cos(a), 2.4 * math.sin(a), 5.6), 0.22, "than_cay", bev=0))
+    blobs = []
     for i in range(16):
-        a = random.uniform(0, math.tau)
+        a = random.uniform(-1.7, 1.7)
         r = random.uniform(0.5, 3.6)
-        p.append(ball(random.uniform(0.9, 1.3), (r * math.cos(a), r * math.sin(a), 6.0 + random.uniform(0, 2.2) - r * 0.25),
-                      random.choice(["la3", "la1", "la3"]), sub=1, jit=0.12, scale=(1, 1, 0.6)))
+        blobs.append((r * math.cos(a), r * math.sin(a), 6.0 + random.uniform(0, 2.2) - r * 0.25, random.uniform(0.9, 1.3)))
+    for x, y, z, rb in tan_ra_duong(blobs, det=0.6):
+        p.append(ball(rb, (x, y, z), random.choice(["la3", "la1", "la3"]), sub=1, jit=0.12, scale=(1, 1, 0.6)))
     for x, y, sx, sy in ((0, -0.8, 1.7, 0.12), (0, 0.8, 1.7, 0.12), (-0.8, 0, 0.12, 1.5), (0.8, 0, 0.12, 1.5)):
         p.append(box((sx, sy, 0.12), (x, y, 0.06), "xam", bev=0.02))
     done("CayMe", "Models/Pho", p)
@@ -3081,6 +3167,19 @@ def preview_duong(png):
     setup_render(png, (1080, 1350), HEX["bau_troi"], (10, -30, 30), (-6, -50, 0), 26)
 
 
+def preview_o_ga_gan(png):
+    """Cận cảnh góc camera trong game (cao 3 m, sau xe 4 m): các kiểu ổ gà và vũng nước trên làn đường."""
+    reset()
+    place("Models/Duong/DuongLon_100m.fbx", (0, 20, 0))
+    place("Models/VatCan/OGa_1.fbx", (-3.0, -3, 0))
+    place("Models/VatCan/VungNuoc_Nho.fbx", (3.0, -4, 0))
+    place("Models/VatCan/OGa_2.fbx", (0, -8, 0))
+    place("Models/VatCan/VungNuoc_Lon.fbx", (-3.0, -11, 0))
+    place("Models/VatCan/OGa_Cum.fbx", (3.0, -13, 0))
+    place("Models/XeShipper/XeShipper.fbx", (0, 1.5, 0))
+    setup_render(png, (1080, 1350), HEX["bau_troi"], (0, 5.5, 3), (0, -6, 0), 0)
+
+
 def preview_vatcan(png):
     """Góc camera trong game: xe shipper chạy giữa làn, phía trước là ổ gà, vũng nước, rào chắn, lô cốt."""
     reset()
@@ -3414,6 +3513,7 @@ if lam("vat_can"):
     vung_nuoc(False); vung_nuoc(True)
     shipper(); thung_hang(); gio_sau(); khay_ly()
     preview_vatcan(os.path.join(HERE, "xem_truoc_vatcan.png"))
+    preview_o_ga_gan(os.path.join(HERE, "xem_truoc_o_ga_gan.png"))
     preview_shipper(os.path.join(HERE, "xem_truoc_shipper.png"))
 if lam("xe_ai"):
     xe_dap("XeDap_1", "nhan_xanh", "ba", "nhan_do", "vien", "rau")
