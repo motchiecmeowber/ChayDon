@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4e7dfe59deaa644bde81deb076d9d3, type: 3}
+  m_Name: Lighting_RushHour
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPreset
+  skyColor: {r: 0.95686275, g: 0.63529414, b: 0.38039216, a: 1}
+  sunColor: {r: 1, g: 0.7019608, b: 0.41960785, a: 1}
+  sunIntensity: 1.1
+  sunRotation: {x: 18, y: -60, z: 0}
+  shadowStrength: 0.65
+  ambientSky: {r: 0.95686275, g: 0.69411767, b: 0.5137255, a: 1}
+  ambientEquator: {r: 0.8509804, g: 0.63529414, b: 0.49411765, a: 1}
+  ambientGround: {r: 0.43529412, g: 0.36862746, b: 0.34509805, a: 1}
+  fog: 1
+  fogColor: {r: 0.9490196, g: 0.69803923, b: 0.49411765, a: 1}
+  fogStart: 45
+  fogEnd: 150
+  postProcess: {fileID: 0}

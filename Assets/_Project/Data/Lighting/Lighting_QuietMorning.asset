@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f4e7dfe59deaa644bde81deb076d9d3, type: 3}
+  m_Name: Lighting_QuietMorning
+  m_EditorClassIdentifier: Assembly-CSharp::LightingPreset
+  skyColor: {r: 0.7490196, g: 0.8901961, b: 0.9490196, a: 1}
+  sunColor: {r: 1, g: 0.90588236, b: 0.65882355, a: 1}
+  sunIntensity: 1.3
+  sunRotation: {x: 50, y: -30, z: 0}
+  shadowStrength: 0.75
+  ambientSky: {r: 0.7490196, g: 0.8901961, b: 0.9490196, a: 1}
+  ambientEquator: {r: 0.9490196, g: 0.84313726, b: 0.7137255, a: 1}
+  ambientGround: {r: 0.5568628, g: 0.5411765, b: 0.52156866, a: 1}
+  fog: 1
+  fogColor: {r: 0.7490196, g: 0.8901961, b: 0.9490196, a: 1}
+  fogStart: 70
+  fogEnd: 180
+  postProcess: {fileID: 0}
