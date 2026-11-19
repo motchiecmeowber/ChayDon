@@ -23,7 +23,7 @@ Hai gói này không nằm trong repo vì giấy phép Standard Unity Asset Stor
 
 1. Mở link, bấm **Add to My Assets**.
 2. Trong Unity: **Window → Package Manager → My Assets** → chọn gói → **Download** → **Import** → bấm **Import** trong cửa sổ hiện ra.
-3. Sau khi import Low Poly Cars, chạy menu **Chạy Đơn → Chuyển vật liệu Low Poly Cars sang URP** để xe không bị hồng.
+3. Sau khi import Low Poly Cars, chạy menu **Chạy Đơn → Convert Low Poly Cars Materials to URP** để xe không bị hồng.
 
 ## Cấu trúc
 
