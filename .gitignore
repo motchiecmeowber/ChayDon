@@ -47,3 +47,6 @@ sysinfo.txt
 .DS_Store
 Thumbs.db
 desktop.ini
+
+# Ảnh xem trước do script Blender sinh ra, chỉ dùng để duyệt hoặc chèn vào doc
+/Tools/Blender/XemTruoc/

@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3832066780130130364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7169630038974889052}
+  - component: {fileID: 8689953852558334602}
+  m_Layer: 0
+  m_Name: DuongLon_NgaTu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7169630038974889052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832066780130130364}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7715474500064638390}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8689953852558334602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832066780130130364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ee36ace51694e41bb4344463d84e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AttachPoints
+  points:
+  - {fileID: 8020715157860630881}
+  - {fileID: 2612272693454478677}
+  - {fileID: 3946662898625857828}
+  - {fileID: 2572897269410323366}
+--- !u!1001 &7825116848744206941
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7169630038974889052}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+      propertyPath: m_Name
+      value: DuongLon_NgaTu
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+--- !u!4 &2572897269410323366 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5705113222753077755, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+  m_PrefabInstance: {fileID: 7825116848744206941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2612272693454478677 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5249172397983797000, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+  m_PrefabInstance: {fileID: 7825116848744206941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &3946662898625857828 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6511425157253061497, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+  m_PrefabInstance: {fileID: 7825116848744206941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7715474500064638390 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+  m_PrefabInstance: {fileID: 7825116848744206941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8020715157860630881 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 276737869568889660, guid: 0b8afaad1f022724886fbea22bfe4790, type: 3}
+  m_PrefabInstance: {fileID: 7825116848744206941}
+  m_PrefabAsset: {fileID: 0}
